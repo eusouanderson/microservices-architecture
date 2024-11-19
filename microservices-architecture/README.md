@@ -2,9 +2,8 @@
 
 ## Project Structure
 
+```lua
 microservices-architecture/
-
-
 ├── auth-service/
 │   ├── src/
 │   │   ├── controllers/
@@ -37,6 +36,7 @@ microservices-architecture/
 │   └── .env
 ├── docker-compose.yml
 └── README.md
+```
 
 ## Core Features
 
