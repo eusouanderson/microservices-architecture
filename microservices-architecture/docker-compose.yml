@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # Auth Service
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./auth-service/.env
+    depends_on:
+      - mongo-auth
+    networks:
+      - microservices-network
+
+  # Product Service
+  product-service:
+    build: ./product-service
+    ports:
+      - "3002:3002"
+    env_file:
+      - ./product-service/.env
+    depends_on:
+      - mongo-products
+    networks:
+      - microservices-network
+
+  # Order Service
+  order-service:
+    build: ./order-service
+    ports:
+      - "3003:3003"
+    env_file:
+      - ./order-service/.env
+    depends_on:
+      - mongo-orders
+    networks:
+      - microservices-network
+
+  # MongoDB for Auth Service
+  mongo-auth:
+    image: mongo:6.0
+    container_name: mongo-auth
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-auth-data:/data/db
+    networks:
+      - microservices-network
+
+  # MongoDB for Product Service
+  mongo-products:
+    image: mongo:6.0
+    container_name: mongo-products
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-products-data:/data/db
+    networks:
+      - microservices-network
+
+  # MongoDB for Order Service
+  mongo-orders:
+    image: mongo:6.0
+    container_name: mongo-orders
+    ports:
+      - "27019:27017"
+    volumes:
+      - mongo-orders-data:/data/db
+    networks:
+      - microservices-network
+
+volumes:
+  mongo-auth-data:
+  mongo-products-data:
+  mongo-orders-data:
+
+networks:
+  microservices-network:
+    driver: bridge
