@@ -1,41 +1,35 @@
-# Architecture
+# Estrutura do Projeto - Microservices Architecture
 
-## Project Structure
+O projeto utiliza a **arquitetura de microserviços**, organizada de forma modular, com serviços separados por domínio e configurados para trabalhar de maneira independente.
 
-```lua
-microservices-architecture/
-├── auth-service/
-│   ├── src/
-│   │   ├── controllers/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   ├── index.js
-│   │   └── config.js
+## Estrutura do Diretório
+
+```plaintext
+├── auth-service
 │   ├── Dockerfile
 │   ├── package.json
-│   └── .env
-├── product-service/
-│   ├── src/
-│   │   ├── controllers/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   ├── index.js
-│   │   └── config.js
-│   ├── Dockerfile
-│   ├── package.json
-│   └── .env
-├── order-service/
-│   ├── src/
-│   │   ├── controllers/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   ├── index.js
-│   │   └── config.js
-│   ├── Dockerfile
-│   ├── package.json
-│   └── .env
+│   └── src
+│       ├── config.js
+│       └── index.js
 ├── docker-compose.yml
-└── README.md
+├── gateway
+│   ├── Dockerfile
+│   ├── package.json
+│   └── src
+│       ├── config.js
+│       └── index.js
+├── order-service
+│   ├── Dockerfile
+│   ├── package.json
+│   └── src
+│       ├── config.js
+│       └── index.js
+└── product-service
+    ├── Dockerfile
+    ├── package.json
+    └── src
+        ├── config.js
+        └── index.js
 ```
 
 ## Core Features

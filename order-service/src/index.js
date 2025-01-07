@@ -5,8 +5,8 @@ const app = express();
 
 app.use(express.json());
 
-//Product Service
-app.post('/product_service', (req, res) => {
+//Order Service
+app.post('/order_service', (req, res) => {
     
     res.send('Order Service');
 });

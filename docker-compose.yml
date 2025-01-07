@@ -1,80 +1,54 @@
 version: '3.8'
 
 services:
-  # Auth Service
   auth-service:
-    build: ./auth-service
+    build:
+      context: ./auth-service
     ports:
-      - "3001:3001"
-    env_file:
-      - ./auth-service/.env
+      - 3001:3000
+    environment:
+      - DB_URI=${DB_URI}
+      - JWT_SECRET=${JWT_SECRET}
     depends_on:
-      - mongo-auth
-    networks:
-      - microservices-network
+      - mongodb
 
-  # Product Service
-  product-service:
-    build: ./product-service
-    ports:
-      - "3002:3002"
-    env_file:
-      - ./product-service/.env
-    depends_on:
-      - mongo-products
-    networks:
-      - microservices-network
-
-  # Order Service
   order-service:
-    build: ./order-service
+    build:
+      context: ./order-service
     ports:
-      - "3003:3003"
-    env_file:
-      - ./order-service/.env
+      - 3002:3000
+    environment:
+      - DB_URI=${DB_URI}
     depends_on:
-      - mongo-orders
-    networks:
-      - microservices-network
+      - mongodb
 
-  # MongoDB for Auth Service
-  mongo-auth:
-    image: mongo:6.0
-    container_name: mongo-auth
+  product-service:
+    build:
+      context: ./product-service
     ports:
-      - "27017:27017"
-    volumes:
-      - mongo-auth-data:/data/db
-    networks:
-      - microservices-network
+      - 3003:3000
+    environment:
+      - DB_URI=${DB_URI}
+    depends_on:
+      - mongodb
 
-  # MongoDB for Product Service
-  mongo-products:
-    image: mongo:6.0
-    container_name: mongo-products
+  gateway:
+    build:
+      context: ./gateway
     ports:
-      - "27018:27017"
-    volumes:
-      - mongo-products-data:/data/db
-    networks:
-      - microservices-network
+      - 3000:3000
+    depends_on:
+      - auth-service
+      - order-service
+      - product-service
 
-  # MongoDB for Order Service
-  mongo-orders:
-    image: mongo:6.0
-    container_name: mongo-orders
+  mongodb:
+    image: mongo:latest
     ports:
-      - "27019:27017"
+      - 27017:27017
     volumes:
-      - mongo-orders-data:/data/db
-    networks:
-      - microservices-network
+      - mongodb_data:/data/db
 
 volumes:
-  mongo-auth-data:
-  mongo-products-data:
-  mongo-orders-data:
-
-networks:
-  microservices-network:
-    driver: bridge
+  mongodb_data:
+    driver: local
