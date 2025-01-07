@@ -1,5 +1,5 @@
 **/.env
-
+.env
 .*
 node_modules/
 
@@ -7,3 +7,6 @@ node_modules/
 
 .DS_Store
 Thumbs.db
+product-service/.env
+order-service/.env
+auth-service/.env
