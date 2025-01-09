@@ -7,10 +7,12 @@ services:
     ports:
       - 3001:3000
     environment:
-      - DB_URI=${DB_URI}
+      - DB_URI=${DB_URI_AUTH}
       - JWT_SECRET=${JWT_SECRET}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     depends_on:
-      - mongodb
+      - redis
 
   order-service:
     build:
@@ -18,9 +20,11 @@ services:
     ports:
       - 3002:3000
     environment:
-      - DB_URI=${DB_URI}
+      - DB_URI=${DB_URI_ORDER}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     depends_on:
-      - mongodb
+      - redis
 
   product-service:
     build:
@@ -28,9 +32,11 @@ services:
     ports:
       - 3003:3000
     environment:
-      - DB_URI=${DB_URI}
+      - DB_URI=${DB_URI_SERVICE}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     depends_on:
-      - mongodb
+      - redis
 
   gateway:
     build:
@@ -42,13 +48,8 @@ services:
       - order-service
       - product-service
 
-  mongodb:
-    image: mongo:latest
+  redis:
+    image: redis:latest
     ports:
-      - 27017:27017
-    volumes:
-      - mongodb_data:/data/db
-
-volumes:
-  mongodb_data:
-    driver: local
+      - 6379:6379
+    command: redis-server --save 60 1 --loglevel warning

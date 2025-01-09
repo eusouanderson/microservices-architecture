@@ -1,12 +1,7 @@
-**/.env
 .env
 .*
 node_modules/
 
-*.log
 
-.DS_Store
-Thumbs.db
-product-service/.env
-order-service/.env
-auth-service/.env
+
+
