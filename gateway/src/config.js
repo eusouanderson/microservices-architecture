@@ -1,11 +1,9 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
 module.exports = {
-    PORT: process.env.PORT || 3000,
-    DB_URI: process.env.DB_URI || 'mongodb://localhost:27017/auth-service',
-    JWT_SECRET: process.env.JWT_SECRET || 'secretkey',
+    PORT: 3001,
+    //GATEWAY
 };
 
-console.log("DB_URI:", process.env.DB_URI);
-console.log("PORT:", process.env.PORT);
-console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
