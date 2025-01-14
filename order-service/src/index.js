@@ -1,17 +1,22 @@
 const express = require('express');
-const config = require('./config');
+const mongoose = require('mongoose');
+const orderRoutes = require('./routes/order');
+const { PORT, DB_URI } = require('./config');
 
 const app = express();
 
 app.use(express.json());
 
-//Order Service
-app.post('/order_service', (req, res) => {
+app.use('/order', orderRoutes);
     
-    res.send('Order Service');
-});
+mongoose.connect(DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+    .then(() => console.log('Order Service - Connected to MongoDB'))
+    .catch(err => console.error('Could not connect to MongoDB', err));  
 
 
-app.listen(config.PORT, () => {
-    console.log(`Auth Service running on port ${config.PORT}`);
+    app.listen(PORT, () => {
+    console.log(`Auth Service running on port ${PORT}`);
 });
